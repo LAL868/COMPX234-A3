@@ -67,3 +67,30 @@ def start_server(port):
     server_socket.bind(('0.0.0.0', port))
     server_socket.listen(5)
     print(f"Server is listening on port {port}...")
+
+    def print_stats():
+        global total_clients, total_operations, total_reads, total_gets, total_puts, total_errors
+        while True:
+            time.sleep(10)
+            num_tuples = len(tuple_space)
+            if num_tuples > 0:
+                # Calculate the average size of tuples
+                total_tuple_size = sum(len(key) + len(value) for key, value in tuple_space.items())
+                avg_tuple_size = total_tuple_size / num_tuples
+                avg_key_size = sum(len(key) for key in tuple_space.keys()) / num_tuples
+                avg_value_size = sum(len(value) for value in tuple_space.values()) / num_tuples
+            else:
+                avg_tuple_size = 0
+                avg_key_size = 0
+                avg_value_size = 0
+            print(f"Tuple Space Stats:")
+            print(f"Number of tuples: {num_tuples}")
+            print(f"Average tuple size: {avg_tuple_size}")
+            print(f"Average key size: {avg_key_size}")
+            print(f"Average value size: {avg_value_size}")
+            print(f"Total clients: {total_clients}")
+            print(f"Total operations: {total_operations}")
+            print(f"Total READs: {total_reads}")
+            print(f"Total GETs: {total_gets}")
+            print(f"Total PUTs: {total_puts}")
+            print(f"Total errors: {total_errors}")
