@@ -60,3 +60,11 @@ if __name__ == "__main__":
                 
                 # Control the request sending rate
                 time.sleep(0.01)  
+
+    except FileNotFoundError:
+        print(f"Error: Request file '{request_file}' not found")
+        sys.exit(1)
+
+    except Exception as e:
+        print(f"Error processing request file: {e}")
+        sys.exit(1)
