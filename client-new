@@ -16,3 +16,7 @@ def send_request(server_host, server_port, request):
     finally:
         client_socket.close()
 
+if __name__ == "__main__":
+    if len(sys.argv) != 4:
+        print("Usage: python client.py <server_host> <server_port> <request_file>")
+        sys.exit(1)
