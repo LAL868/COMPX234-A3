@@ -20,3 +20,37 @@ def handle_client(client_socket, client_address):
             request = client_socket.recv(1024).decode('utf - 8')
             if not request:
                 break
+
+            message_length = int(request[:3])
+            operation = request[3]
+            key = request[4:message_length].split(' ')[0]
+            value = request[4:message_length].split(' ')[1] if operation == 'P' else ''
+
+            response = ''
+            if operation == 'R':  
+                # Read a tuple without deleting it
+                total_operations += 1
+                total_reads += 1
+                if key in tuple_space:
+                    response = f"0{len(f'OK ({key}, {tuple_space[key]}) read')} OK ({key}, {tuple_space[key]}) read"
+                else:
+                    response = f"0{len('ERR k does not exist')} ERR k does not exist"
+                    total_errors += 1
+            elif operation == 'G':  # Read and remove a tuple
+                total_operations += 1
+                total_gets += 1
+                if key in tuple_space:
+                    value = tuple_space.pop(key)
+                    response = f"0{len(f'OK ({key}, {value}) removed')} OK ({key}, {value}) removed"
+                else:
+                    response = f"0{len('ERR k does not exist')} ERR k does not exist"
+                    total_errors += 1
+            elif operation == 'P':  # Add a new tuple
+                total_operations += 1
+                total_puts += 1
+                if key in tuple_space:
+                    response = f"0{len('ERR k already exists')} ERR k already exists"
+                    total_errors += 1
+                else:
+                    tuple_space[key] = value
+                    response = f"0{len(f'OK ({key}, {value}) added')} OK ({key}, {value}) added"
