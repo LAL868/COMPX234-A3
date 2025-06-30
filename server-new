@@ -4,3 +4,10 @@ import time
 import sys
 
 tuple_space = {}
+
+Stats_lock=threading. Lock() # Thread lock
+Total connections=0 # Total number of connections
+Total_operations=0 # Total number of operations
+Operation-counts={'PUT ': 0,' READ ': 0,' GET ': 0} # Count of each operation type
+Error count=0 # Error request count
+
