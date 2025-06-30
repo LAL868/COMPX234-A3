@@ -94,3 +94,7 @@ def start_server(port):
             print(f"Total GETs: {total_gets}")
             print(f"Total PUTs: {total_puts}")
             print(f"Total errors: {total_errors}")
+
+    stats_thread = threading.Thread(target = print_stats)
+    stats_thread.daemon = True
+    stats_thread.start()
