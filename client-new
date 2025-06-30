@@ -10,3 +10,9 @@ def send_request(server_host, server_port, request):
         client_socket.send(request.encode('utf-8'))
         response = client_socket.recv(1024).decode('utf-8')
         return response
+    except Exception as e:
+        print(f"Error sending request: {e}")
+        return None
+    finally:
+        client_socket.close()
+
