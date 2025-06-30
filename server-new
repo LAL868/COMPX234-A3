@@ -11,3 +11,12 @@ total_reads = 0
 total_gets = 0
 total_puts = 0
 total_errors = 0
+
+def handle_client(client_socket, client_address):
+    global total_clients, total_operations, total_reads, total_gets, total_puts, total_errors
+    total_clients += 1
+    try:
+        while True:
+            request = client_socket.recv(1024).decode('utf - 8')
+            if not request:
+                break
