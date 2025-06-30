@@ -21,7 +21,42 @@ if __name__ == "__main__":
         print("Usage: python client.py <server_host> <server_port> <request_file>")
         sys.exit(1)
 
-#Analyze command-line parameters
+    #Analyze command-line parameters
     server_host = sys.argv[1]  
     server_port = int(sys.argv[2]) 
     request_file = sys.argv[3]
+
+    try:
+        with open(request_file, 'r') as file:
+            # Read request file line by line
+            for line in file:
+                line = line.strip()  
+
+                if not line:
+                    continue
+
+                parts = line.split()  
+                operation = parts[0]  
+                key = parts[1] 
+                
+                # For PUT operations, it is also necessary to obtain values
+                value = parts[2] if operation == 'PUT' else ''
+                
+                if operation == 'PUT':
+                    message_length = len(f"{operation} {key} {value}") + 3  
+                    request = f"{message_length:03d}{operation} {key} {value}"  
+                else:
+                    message_length = len(f"{operation} {key}") + 3
+                    request = f"{message_length:03d}{operation} {key}"
+                
+                # Send a request and receive a response
+                response = send_request(server_host, server_port, request)
+                
+                # Print request and response results
+                if response:
+                    print(f"Request: {line} → Response: {response}")
+                else:
+                    print(f"Request: {line} → Error: No response")
+                
+                # Control the request sending rate
+                time.sleep(0.01)  
