@@ -98,3 +98,8 @@ def start_server(port):
     stats_thread = threading.Thread(target = print_stats)
     stats_thread.daemon = True
     stats_thread.start()
+
+    while True:
+        client_socket, client_address = server_socket.accept()
+        client_thread = threading.Thread(target = handle_client, args = (client_socket, client_address))
+        client_thread.start()
