@@ -2,3 +2,5 @@ import socket
 import threading
 import time
 import sys
+
+tuple_space = {}
