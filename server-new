@@ -3,11 +3,11 @@ import threading
 import time
 import sys
 
+# Define a dictionary to represent the tuple space and some statistical variables
 tuple_space = {}
-
-Stats_lock=threading. Lock() # Thread lock
-Total connections=0 # Total number of connections
-Total_operations=0 # Total number of operations
-Operation-counts={'PUT ': 0,' READ ': 0,' GET ': 0} # Count of each operation type
-Error count=0 # Error request count
-
+total_clients = 0
+total_operations = 0
+total_reads = 0
+total_gets = 0
+total_puts = 0
+total_errors = 0
